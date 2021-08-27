@@ -1,19 +1,22 @@
+import { checkThemeInLocalStorage } from './checkThemeInLocalStorage.js';
 import refs from './refs';
 import themes from '../db/themes.js';
 
 const { body, checkbox } = refs;
 const { light, dark } = themes;
 
-checkbox.addEventListener('change', () => {
-  body.classList.toggle('dark-theme');
+body.className = `${light}`;
 
-  localStorage.getItem('class')
-    ? localStorage.removeItem('class')
-    : localStorage.setItem('class', 'dark-theme');
-});
-if (localStorage.getItem('class') === 'dark-theme') {
-  let className = localStorage.getItem('class');
-  body.classList.add(className);
-  checkbox.checked = true;
-  //   checkbox.setAttribute('checked', 'checked');
+checkbox.addEventListener('change', changeTheme);
+
+function changeTheme() {
+  if (checkbox.checked) {
+    body.className = `${dark}`;
+    localStorage.setItem('class', `${dark}`);
+  } else {
+    body.className = `${light}`;
+    localStorage.setItem('class', `${light}`);
+  }
 }
+
+checkThemeInLocalStorage();
